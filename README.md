@@ -47,7 +47,7 @@ const subscription = MY_MODEL$.subscribe(async MY_MODEL_INST: MY_MODEL => {
 });
 
 // when changes intercepting is not needed anymore
-subscription?.unsubscribe(); // not used anymore
+subscription?.unsubscribe();
 ```
 
 ## Author
