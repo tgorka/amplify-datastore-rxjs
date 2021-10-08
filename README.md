@@ -2,6 +2,8 @@
 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) 
 
+RxJs Subjects to work with AWS Amplify and Amplify Datastore.
+
 ## Table of Contents
 
 * [Description](#description)

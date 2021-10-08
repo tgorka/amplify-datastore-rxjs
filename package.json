@@ -1,0 +1,33 @@
+{
+    "name": "amplify-datastore-rxjs",
+    "version": "0.1.0",
+    "description": "RxJs Subjects to work with AWS Amplify and Amplify Datastore.",
+    "license": "MIT",
+    "author": "Tomasz Gorka",
+    "homepage": "https://github.com/tgorka/amplify-datastore-rxjs",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/tgorka/amplify-datastore-rxjs.git"
+    },
+    "main": "index",
+    "engines": {
+      "node": ">=16"
+    },
+    "scripts": {
+        "build:noclean": "tsc",
+        "build": "npm run clean && npm run build:noclean",
+        "clean:dist": "rm -rf *.js && rm -rf *.js.map",
+        "clean:types": "rm -rf types",
+        "clean": "npm run clean:dist && npm run clean:types",
+        "publish": "npm login && npm publish"
+    },
+    "dependencies": {
+      "@aws-amplify/datastore": "^3.2.1",
+      "rxjs": "~6.6.3"
+    },
+    "devDependencies": {
+      "ts-node": "~8.3.0",
+      "typescript": "~4.3.5"
+    }
+  }
+  
