@@ -36,7 +36,7 @@ import { DataStoreGetSuject } from 'amplify-datastore-rxjs';
 const MY_MODEL$: DataStoreGetSuject<MY_MODEL> = new DataStoreGetSuject(MY_MODEL);
 
 // initialize with ID when it's known
-await this.MY_MODEL$.init(MY_MODEL_ID);
+await MY_MODEL$.init(MY_MODEL_ID);
 
 // subscribe to see the changes (can be called before init - initial value is null)
 const subscription = MY_MODEL$.subscribe(async MY_MODEL_INST: MY_MODEL => {
