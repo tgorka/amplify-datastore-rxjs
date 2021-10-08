@@ -29,7 +29,7 @@ npm install amplify-datastore-rxjs
 
 ## Usage
 
-``` javascript
+``` typescript
 import { DataStoreGetSuject } from 'amplify-datastore-rxjs';
 
 // declare suject with model
