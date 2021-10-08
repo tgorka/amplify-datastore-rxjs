@@ -58,4 +58,4 @@ Tomasz Górka <http://tomasz.gorka.org.pl>
 
 MIT licensed.
 
-Have fun with using `devenv` ;).
+Have fun with using `amplify-datastore-rxjs` ;).
