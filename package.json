@@ -5,20 +5,41 @@
     "license": "MIT",
     "author": "Tomasz Gorka",
     "homepage": "https://github.com/tgorka/amplify-datastore-rxjs",
+    "bugs": {
+      "url": "https://github.com/tgorka/amplify-datastore-rxjs/issues"
+    },
     "repository": {
         "type": "git",
         "url": "git://github.com/tgorka/amplify-datastore-rxjs.git"
     },
-    "main": "index",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+      "/dist",
+      "README.md",
+      "LICENSE",
+      "package.json",
+      "package-lock.json"
+    ],
     "engines": {
         "node": ">=16"
     },
+    "keywords": [
+      "graphql-client", 
+      "graphql", 
+      "aws", 
+      "angular", 
+      "typescript",
+      "rxjs", 
+      "amplify", 
+      "datastore", 
+      "awsamplify", 
+      "amplifydatastore"
+    ],
     "scripts": {
         "build:noclean": "tsc",
         "build": "npm run clean && npm run build:noclean",
-        "clean:dist": "rm -rf *.js && rm -rf *.js.map",
-        "clean:types": "rm -rf types",
-        "clean": "npm run clean:dist && npm run clean:types",
+        "clean": "rm -rf ./dist",
         "publish": "npm login && npm publish"
     },
     "dependencies": {
