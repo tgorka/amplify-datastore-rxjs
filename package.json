@@ -11,7 +11,7 @@
     },
     "main": "index",
     "engines": {
-      "node": ">=16"
+        "node": ">=16"
     },
     "scripts": {
         "build:noclean": "tsc",
@@ -22,12 +22,10 @@
         "publish": "npm login && npm publish"
     },
     "dependencies": {
-      "@aws-amplify/datastore": "^3.2.1",
-      "rxjs": "~6.6.3"
+        "@aws-amplify/datastore": "^3.5.0",
+        "rxjs": "^7.4.0"
     },
     "devDependencies": {
-      "ts-node": "~8.3.0",
-      "typescript": "~4.3.5"
+        "typescript": "^4.4.4"
     }
-  }
-  
+}
