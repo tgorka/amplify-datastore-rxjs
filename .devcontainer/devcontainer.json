@@ -1,0 +1,46 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/main/containers/typescript-node
+{
+    "name": "amplify-datastore-rxjs-dev",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "dev",
+    "workspaceFolder": "/workspace",
+    
+      // Set *default* container specific settings.json values on container create.
+    "settings": {
+      "ShortcutMenuBar.navigateBack": false,
+      "ShortcutMenuBar.navigateForward": false,
+      "ShortcutMenuBar.save": true
+    },
+    
+      // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+      "dbaeumer.vscode-eslint",
+      "ms-azuretools.vscode-docker",
+      "jerrygoyal.shortcut-menu-bar",
+      "amazonwebservices.aws-toolkit-vscode",
+      "github.codespaces",
+      "github.vscode-pull-request-github",
+      "graphql.vscode-graphql",
+      "bboure.vscode-appsync-utils",
+      "shd101wyy.markdown-preview-enhanced",
+      "angular.ng-template",
+      "github.github-vscode-theme",
+      "esbenp.prettier-vscode",
+      "aws-amplify.aws-amplify-vscode",
+      "ms-toolsai.jupyter",
+      "donjayamanne.typescript-notebook",
+      "github.copilot",
+      "redhat.vscode-yaml",
+      "stripe.vscode-stripe"
+    ],
+    
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [8080],
+    
+    // Use 'postCreateCommand' to run commands after the container is created.
+    // "postCreateCommand": "npm install", //"yarn install",
+    
+    // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+    "remoteUser": "node"
+    }
