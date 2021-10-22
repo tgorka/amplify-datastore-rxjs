@@ -3,7 +3,7 @@ version: '3.9'
 services:
 
   dev:
-    image: amplify-datastore-rxjs-dev
+    image: amplify-datastore-rxjs
     build: 
       context: .
       dockerfile: Dockerfile
@@ -19,7 +19,7 @@ services:
       - ENV=dev
 
     volumes:
-      - ..:/workspace/drive
+      - ..:/workspace/amplify-datastore-rxjs
       - ~/.aws:/home/node/.aws
       - ~/.amplify:/home/node/.amplify
 
