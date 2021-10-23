@@ -29,8 +29,8 @@ jobs:
       - name: Re-build
         run: npm run build
       # Publish project into the repository
-      #- name: Publish
-      #  run: npm run publish
+      - name: Publish
+        run: npm run publish
   github_publishing:
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +40,7 @@ jobs:
         with:
           node-version: '16'
           token: ${{ secrets.GITHUB_TOKEN }}
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: 'https://npm.pkg.github.com/'
       # Install project
       - name: Install
         run: npm install
@@ -48,5 +48,5 @@ jobs:
       - name: Re-build
         run: npm run build
       # Publish project into the repository
-      #- name: Publish
-      #  run: npm run publish
+      - name: Publish
+        run: npm run publish
