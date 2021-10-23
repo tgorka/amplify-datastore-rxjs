@@ -1,6 +1,6 @@
 {
     "name": "amplify-datastore-rxjs",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "RxJs Subjects to work with AWS Amplify and Amplify Datastore.",
     "license": "MIT",
     "author": "Tomasz Gorka",
@@ -40,7 +40,8 @@
         "build:noclean": "tsc",
         "build": "npm run clean && npm run build:noclean",
         "clean": "rm -rf ./dist",
-        "publish": "npm login && npm publish"
+        "publish:nobuild": "npm login && npm publish",
+        "publish": "npm run build && npm run publish:nobuild"
     },
     "dependencies": {
         "@aws-amplify/datastore": "^3.5.0",
