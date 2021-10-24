@@ -1,6 +1,8 @@
 # amplify-datastore-rxjs
 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT) 
+[![PUBLISHING](https://github.com/tgorka/amplify-datastore-rxjs/actions/workflows/main.yml/badge.svg)](https://github.com/tgorka/amplify-datastore-rxjs/actions/workflows/main.yml) 
+[![NPM version](https://img.shields.io/npm/v/amplify-datastore-rxjs.svg?style=flat)](https://npmjs.org/package/amplify-datastore-rxjs)
 
 RxJs Subjects to work with AWS Amplify and Amplify Datastore.
 
