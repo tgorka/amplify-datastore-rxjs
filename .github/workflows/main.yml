@@ -29,8 +29,8 @@ jobs:
       - name: Re-build
         run: npm run build
       # Publish project into the repository
-      - name: Publish
-        run: npm run publish
+      #- name: Publish
+      #  run: npm run publish
   github_publishing:
     runs-on: ubuntu-latest
     steps:
@@ -48,5 +48,5 @@ jobs:
       - name: Re-build
         run: npm run build
       # Publish project into the repository
-      - name: Publish
-        run: npm run publish
+      #- name: Publish
+      #  run: npm run publish

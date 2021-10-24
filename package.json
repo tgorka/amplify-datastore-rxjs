@@ -38,6 +38,7 @@
       "amplifydatastore"
     ],
     "scripts": {
+        "prepare": "npm run build",
         "build:noclean": "tsc",
         "build": "npm run clean && npm run build:noclean",
         "clean": "rm -rf ./dist",
