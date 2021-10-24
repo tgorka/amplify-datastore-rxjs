@@ -12,6 +12,7 @@ RxJs Subjects to work with AWS Amplify and Amplify Datastore.
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
+* [Examples](#examples)
 * [Author](#author)
 * [License](#license)
 
@@ -29,7 +30,7 @@ RxJs Subjects to work with AWS Amplify and Amplify Datastore.
 
 In order to use amplify datastore:
 - Amplify datastore Model configured on server site
-- AWS Configuration already setup in the frontend project:
+- AWS/Amplify Configuration already setup in the frontend project:
 ``` typescript
 Amplify.configure(CONFIG);
 ```
@@ -41,6 +42,35 @@ npm install amplify-datastore-rxjs
 ```
 
 ## Usage
+
+Library is simplified fetching and subscription enclosing it in the RxJS BehaviorSubject. 
+- There are 2 classes for the BehaviorSubject:
+  - ```DataGetSuject``` for the single data record fetched by id
+  - ```DataQuerySuject``` for the list of the data records fetched by the criteria using batches
+- There is default object (```null``` or ```[]```) serve before the first time data is fetched from the source.
+- After calling ```init``` the data is fetched and subscription to the data changes is setup.
+- After subscription notify for the changes the data is re-fetch from the source and the RxJS pipe is pushed with the next data.
+- Adapter in the constructor for customizing data source get/query/subscribe/parse operation.
+- There are adapters and classes with encapsulating this adapters for **Amplify datasource** and **Custom SDK** source (that could be used for custom graphQL, REST, RPC, SOAP, SDK/lib ...).
+  - ```DataStoreGetApiAdapter```, ```DataStoreQueryApiAdapter``` adapters for **Amplify datasource**.
+  - ```DataStoreGetSuject```, ```DataStoreQuerySuject``` BehaviorSujects for **Amplify datasource** (with wrapped adapters).
+  - ```SdkGetApiAdapter```, ```SdkQueryApiAdapter``` adapters for ***Custom SDK***.
+  - ```SdkGetSuject```, ```SdkQuerySuject``` BehaviorSujects for **Custom SDK** (with wrapped adapters).
+  - ```GetApiAdapter```, ```QueryApiAdapter``` interfaces for the adapters.
+  - ```AbstractGetApiAdapter```, ```AbstractQueryApiAdapter``` partly pre-implemented classes for building custom adapters.
+- There are helpfull methods in ```DataQuerySuject```.
+  - ```scrollNextEvent``` can be used for ifinitive scroll (with **ion-scroll** from **Ionic**) of by throwing an event for fetching next batch of the data.
+  - ```trackBy``` can be used to speedup display large set of data records in **Angular** using conbination of ```id``` and ```_version``` (if exists) data properties.
+- There are trigger functions that can be setup to infiltrate data flow (for logs, data manipulation in the process, event interceptions, ...).
+  - ```postDataUpdateTrigger```, ```postDataBatchTrigger``` infiltrating raw data in the process fetched from the source. Can be used for logs or modification of the data from the source that is too specific for having/modifing custom adapter for the data souce.
+  - ```postFetchTrigger``` trigger after new data has been set into the RxJS pipe. Can be used for custom view refresh triggered if not detected autmaticly.
+  - ```dataChangedTrigger``` only on ```DataQuerySuject``` triger after subscription to the data has been triggered but more than first batch of data has been feteched already. The data is **NOT** automaticly refreshed. It can be used to showing to the used that viewing data set has been mutated and can be refreshed manually (using ```init``` method). If only one batch of data has been fetched the data is automaticly refreshed and ```postFetchTrigger``` can be used for infitrating instead.
+
+## Examples 
+
+### Amplify Datastore
+
+#### Get object
 
 ``` typescript
 import { DataStoreGetSuject } from 'amplify-datastore-rxjs';
@@ -62,6 +92,12 @@ const subscription = MY_MODEL$.subscribe(async MY_MODEL_INST: MY_MODEL => {
 // when changes intercepting is not needed anymore
 subscription?.unsubscribe();
 ```
+
+### Custom SDK
+
+
+
+
 
 ## Author
 Tomasz Górka <http://tomasz.gorka.org.pl>
