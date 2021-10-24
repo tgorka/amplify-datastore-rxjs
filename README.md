@@ -17,13 +17,22 @@ RxJs Subjects to work with AWS Amplify and Amplify Datastore.
 
 ## Description
 
-Suject helps with loading paginating data from AWS Amplify Datastore and subscribe for the changes with RxJS Observers.
-It helps to work with the list with infinitive scroll or trackBy using `id` and `_version` property.
-Sujects are having trigger functions that can be used for logging or customizable the process.
+- RxJS Suject helps with loading paginating data 
+- Subscribing to data change and re-fetching subsciption event
+- AWS Amplify Datastore adapter for fetching and subscription
+- SDK custom adapter for subscription and re-retching (wotks with amplify generated graphql API)
+- Contains helper to work with the list with infinitive scroll using Ionic 
+- Contains helper with trackBy using `id` and `_version` property for angular lists
+- Sujects are having trigger functions that can be used for logging or customizable the process.
 
 ## Requirements
 
-- AWS Amplify Datastore Model 
+In order to use amplify datastore:
+- Amplify datastore Model configured on server site
+- AWS Configuration already setup in the frontend project:
+``` typescript
+Amplify.configure(CONFIG);
+```
 
 ## Installation
 
