@@ -99,9 +99,9 @@ const test$: DataGetSuject<Test> = new DataStoreGetSuject(Test);
 // new DataStoreGetSuject(Test, 'TEST_RECORD_ID', initialTestObj) or new DataStoreGetSuject(Test, null, initialTestObj)
 ``` 
 
-##### initialion (if not done during declation)
+##### initialion
 
-Can be placed when id of the data record is known or has been changed
+Can be placed when id of the data record is known or has been changed. Even if id is set this method needs to be called for start initial fetch.
 
 ``` typescript
 await test$.init('TEST_RECORD_ID');
@@ -134,6 +134,7 @@ import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@
 import { ActivatedRoute } from '@angular/router';
 import { DataStoreGetSuject, DataGetSuject } from 'amplify-datastore-rxjs';
 import { Observable } from 'rxjs';
+import { Test } from 'src/models';
 
 @Component({
   selector: 'test',
@@ -145,7 +146,7 @@ export class TestComponent implements OnInit, OnDestroy {
   
   testID$: Observable<string> = this.route.queryParamMap.pipe(map(paramMap => paramMap.get('test')));
   testIDSubscription: any = null;
-  test$: DataQuerySuject<Test> = new DataStoreQuerySuject(Test);
+  test$: DataGetSuject<Test> = new DataStoreGetSuject(Test);
 
   constructor(
     private route: ActivatedRoute,
@@ -153,10 +154,10 @@ export class TestComponent implements OnInit, OnDestroy {
   ) {
     this.test$.setPostFetchTrigger(() => {
       this.ref.detectChanges();
-      this.logger.info(`loaded test`);
+      console.info(`loaded test`);
     });
     this.test$.setPostDataUpdateTrigger(async (test: Test): Promise<Test> => {
-        this.logger.info(`fetched test with id:${test.id}|_version:${test._version}`);
+        console.info(`fetched test with id:${test.id}|_version:${test._version}`);
         return test;
     });
   }
@@ -167,7 +168,7 @@ export class TestComponent implements OnInit, OnDestroy {
       if (!!testID) {
         await this.test$.init(testID);
       } else {
-        this.logger.warn(`there is no test in the parameters: ${testID}`);
+        console.warn(`there is no test in the parameters: ${testID}`);
       }
     });
   }
@@ -189,10 +190,126 @@ angular async pipe manage unsubscription with unsubscription from amplify datast
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="animated fadeIn" *ngIf="test: test$ | async">
-  <ion-card class="ion-no-margin">
-    <div>{{ test.text }}</div>
+<ion-content class="animated fadeIn">
+  <ion-card class="ion-no-margin" *ngIf="test$ | async as test">
+    <ion-card-content><ion-text color="primary">{{ test.text }}</ion-text color="primary"></ion-card-content>
   </ion-card>
+</ion-content>
+```
+
+#### DataStoreQuerySuject
+
+##### declaration
+
+``` typescript
+import { Test } from 'src/models'; // Model generated from **amplify codegen**
+import { DataQuerySuject, DataStoreQuerySuject } from 'amplify-datastore-rxjs';
+
+// declare suject with model
+// amplify datastore model is used to determinate how to fetch/subscribe data from the source
+const tests$: DataQuerySuject<Test> = new DataStoreQuerySuject(Test); 
+// if the critria of the data filtering is known already the initialization can be done by: 
+// new DataStoreGetSuject(Test, testCriteria)
+// if the value before fetching (or befor initialization) should be different than [] it can be placed as third parameter in the constructor:
+// new DataStoreGetSuject(Test, testCriteria, initialTestList) or new DataStoreGetSuject(Test, null, initialTestList)
+``` 
+
+##### initialion
+
+Can be placed when criteria of the data record is known or has been changed. Even if criteria is set this method needs to be called for start initial fetch.
+If criteria is not set ALL is the default strategy.
+
+``` typescript
+await tests$.init();
+``` 
+
+##### subscription (independend from initialization)
+
+``` typescript
+// subscribe to see the changes (can be called before init - initial value is null)
+const subscription = tests$.subscribe(async tests: Test[] => {
+  // logic when initial/new version/new batch of the Test occured
+  if (!!tests) { // in case subscribe was before init
+    console.info(`got new ${tests.length} tests in the batch.`);
+  }
+});
+``` 
+##### unsubscription (onDestroy)
+
+``` typescript
+// when changes intercepting is not needed anymore
+subscription?.unsubscribe();
+```
+
+##### Full Angular tests.component.ts example
+
+taken id from query parameters
+
+``` typescript
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { DataStoreQuerySuject, DataQuerySuject } from 'amplify-datastore-rxjs';
+import { Test } from 'src/models';
+
+@Component({
+  selector: 'tests',
+  templateUrl: './tests.component.html',
+  styleUrls: ['./tests.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TestsComponent implements OnInit {
+  
+  tests$: DataQuerySuject<Test> = new DataStoreQuerySuject(Test);
+
+  constructor(
+    private ref: ChangeDetectorRef,
+  ) {
+    this.tests$.setPostFetchTrigger(() => {
+      this.ref.detectChanges();
+      console.info(`loaded batch of tests`);
+    });
+    this.tests$.setDataChangedTrigger(async () => {
+        console.info(`data changed in tests => re-init`);
+        await this.tests$.init(); // reset all sets of data and load the first batch
+    });
+    this.tests$.setPostDataBatchTrigger(async (tests: Test[]): Promise<Test[]> => {
+        console.info(`got new ${tests.length} tests in the batch.`);
+        return tests;
+    });
+  }
+
+  async ngOnInit() {
+    await this.tests$.init();
+  }
+}
+```
+
+##### Full Angular (Ionic) tests.component.html example
+
+angular async pipe manage unsubscription with unsubscription from amplify datastore.
+trackBy method is used for the display helper.
+scrollNextEvent method is used for the infinitive scoll.
+
+``` html
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ 'Tests' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="animated fadeIn">
+  <ion-list class="ion-no-padding" *ngIf="tests$ | async as tests" >
+    <ion-item tappable *ngFor="let test of tests; trackBy: tests$.trackBy">
+      <ion-label><ion-text color="primary">{{ test.text }}</ion-text></ion-label>
+    </ion-item>
+  </ion-list>
+  
+  <ion-infinite-scroll threshold="100px" position="bottom" (ionInfinite)="tests$.scrollNextEvent($event)">
+    <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  
 </ion-content>
 ```
 
