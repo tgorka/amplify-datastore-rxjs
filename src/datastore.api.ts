@@ -44,9 +44,10 @@ export class DataStoreQueryApiAdapter<T extends PersistentModel = PersistentMode
 export class DataStoreGetSuject<T extends PersistentModel = PersistentModel> extends DataGetSuject<T, T> {
     constructor(
         modelConstructor: PersistentModelConstructor<T>,
-        id?: string | null
+        id?: string | null,
+        initialValue?: T | null,
     ) {
-        super(new DataStoreGetApiAdapter<T>(modelConstructor), id);
+        super(new DataStoreGetApiAdapter<T>(modelConstructor), id, initialValue);
     }
 }
 
