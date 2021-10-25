@@ -125,7 +125,7 @@ const subscription = test$.subscribe(async test: Test => {
 subscription?.unsubscribe();
 ```
 
-##### Angular test.component.ts example
+##### Full Angular test.component.ts example
 
 taken id from query parameters
 
@@ -178,7 +178,23 @@ export class TestComponent implements OnInit, OnDestroy {
 }
 ```
 
+##### Full Angular (Ionic) test.component.html example
 
+angular async pipe manage unsubscription with unsubscription from amplify datastore
+
+``` html
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ 'Test' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="animated fadeIn" *ngIf="test: test$ | async">
+  <ion-card class="ion-no-margin">
+    <div>{{ test.text }}</div>
+  </ion-card>
+</ion-content>
+```
 
 ### Custom SDK
 
