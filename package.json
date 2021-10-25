@@ -40,7 +40,8 @@
       "typescript",
       "ionic",
       "data",
-      "scroll"
+      "scroll",
+      "fetch"
     ],
     "scripts": {
         "prepare": "npm run build",
