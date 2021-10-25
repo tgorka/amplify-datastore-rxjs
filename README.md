@@ -68,30 +68,117 @@ Library is simplified fetching and subscription enclosing it in the RxJS Behavio
 
 ## Examples 
 
+### Requirements
+
+Amplify datastore Test model taken as an example for datastore and api angular service generated from the model used for Custom SDK usage.
+The Test ```schema.graphql``` for the amplify example:
+
+```graphql
+type Test @model {
+  id: ID!
+  text: String
+}
+```
+
 ### Amplify Datastore
 
-#### Get object
+#### DataStoreGetSuject
+
+##### declaration
 
 ``` typescript
-import { DataStoreGetSuject } from 'amplify-datastore-rxjs';
+import { Test } from 'src/models'; // Model generated from **amplify codegen**
+import { DataGetSuject, DataStoreGetSuject } from 'amplify-datastore-rxjs';
 
 // declare suject with model
-const MY_MODEL$: DataStoreGetSuject<MY_MODEL> = new DataStoreGetSuject(MY_MODEL);
+// amplify datastore model is used to determinate how to fetch/subscribe data from the source
+const test$: DataGetSuject<Test> = new DataStoreGetSuject(Test); 
+// if the id of the data is known already the initialization can be done by: 
+// new DataStoreGetSuject(Test, 'TEST_RECORD_ID')
+// if the value before fetching (or befor initialization) should be different than null it can be placed as third parameter in the constructor:
+// new DataStoreGetSuject(Test, 'TEST_RECORD_ID', initialTestObj) or new DataStoreGetSuject(Test, null, initialTestObj)
+``` 
 
-// initialize with ID when it's known
-await MY_MODEL$.init(MY_MODEL_ID);
+##### initialion (if not done during declation)
 
+Can be placed when id of the data record is known or has been changed
+
+``` typescript
+await test$.init('TEST_RECORD_ID');
+``` 
+
+##### subscription (independend from initialization)
+
+``` typescript
 // subscribe to see the changes (can be called before init - initial value is null)
-const subscription = MY_MODEL$.subscribe(async MY_MODEL_INST: MY_MODEL => {
-  // logic when initial/new version of the MY_MODEl occured
-  if (!!MY_MODEL_INST) { // in case subscribe was before init
-    console.info(`got MY_MODEL with id:${MY_MODEL_INST?.id} version:${MY_MODEL_INST?._version}`);
+const subscription = test$.subscribe(async test: Test => {
+  // logic when initial/new version of the Test occured
+  if (!!test) { // in case subscribe was before init
+    console.info(`got test with id:${test?.id} version:${test?._version}`);
   }
 });
+``` 
+##### unsubscription (onDestroy)
 
+``` typescript
 // when changes intercepting is not needed anymore
 subscription?.unsubscribe();
 ```
+
+##### Angular test.component.ts example
+
+taken id from query parameters
+
+``` typescript
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DataStoreGetSuject, DataGetSuject } from 'amplify-datastore-rxjs';
+import { Observable } from 'rxjs';
+
+@Component({
+  selector: 'test',
+  templateUrl: './test.component.html',
+  styleUrls: ['./test.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TestComponent implements OnInit, OnDestroy {
+  
+  testID$: Observable<string> = this.route.queryParamMap.pipe(map(paramMap => paramMap.get('test')));
+  testIDSubscription: any = null;
+  test$: DataQuerySuject<Test> = new DataStoreQuerySuject(Test);
+
+  constructor(
+    private route: ActivatedRoute,
+    private ref: ChangeDetectorRef,
+  ) {
+    this.test$.setPostFetchTrigger(() => {
+      this.ref.detectChanges();
+      this.logger.info(`loaded test`);
+    });
+    this.test$.setPostDataUpdateTrigger(async (test: Test): Promise<Test> => {
+        this.logger.info(`fetched test with id:${test.id}|_version:${test._version}`);
+        return test;
+    });
+  }
+
+  async ngOnInit() {
+    this.testIDSubscription?.unsubscribe();
+    this.testIDSubscription = this.testID$.subscribe(async testID => {
+      if (!!testID) {
+        await this.test$.init(testID);
+      } else {
+        this.logger.warn(`there is no test in the parameters: ${testID}`);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.testIDSubscription?.unsubscribe();
+  }
+}
+```
+
+
 
 ### Custom SDK
 
