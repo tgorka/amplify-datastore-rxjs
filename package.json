@@ -1,6 +1,6 @@
 {
     "name": "amplify-datastore-rxjs",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "RxJs Subjects to work with AWS Amplify and Amplify Datastore.",
     "license": "MIT",
     "author": "Tomasz Gorka",
