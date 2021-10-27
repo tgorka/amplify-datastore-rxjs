@@ -36,7 +36,8 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
-          name: npm-logs
+          name: error-npm-logs
+          if-no-files-found: ignore
           path: |
             /home/runner/.npm/_logs/
   github_publishing:
@@ -63,6 +64,7 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
-          name: npm-logs
+          name: error-github-logs
+          if-no-files-found: ignore
           path: |
             /home/runner/.npm/_logs/

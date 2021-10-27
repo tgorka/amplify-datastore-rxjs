@@ -47,9 +47,7 @@
         "prepare": "npm run build",
         "build:noclean": "tsc",
         "build": "npm run clean && npm run build:noclean",
-        "clean": "rm -rf ./dist",
-        "publish:nobuild": "npm login && npm publish",
-        "publish": "npm run build && npm run publish:nobuild"
+        "clean": "rm -rf ./dist"
     },
     "dependencies": {
         "@aws-amplify/datastore": "^3.5.0",
