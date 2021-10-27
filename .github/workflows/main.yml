@@ -29,7 +29,7 @@ jobs:
         run: npm run build
       # Publish project into the repository
       - name: Publish
-        run: npm publish
+        run: npm whoami && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Archive npm logs after failure
@@ -49,6 +49,7 @@ jobs:
         with:
           node-version: '16'
           registry-url: 'https://npm.pkg.github.com'
+          scope: '@tgorka'
       # Install project
       - name: Install
         run: npm install
@@ -57,7 +58,7 @@ jobs:
         run: npm run build
       # Publish project into the repository
       - name: Publish
-        run: npm publish
+        run: npm whoami && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Archive npm logs after failure
