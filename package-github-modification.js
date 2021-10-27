@@ -8,7 +8,13 @@ const file = readFileSync("./package.json", {
 
 const json = JSON.parse(file);
 
-json.name = `${process.env.SCOPE}/${json.name}`;
-json.publishConfig.registry = process.env.REGISTRY;
+if (!!process.env.SCOPE) {
+  json.name = `${process.env.SCOPE}/${json.name}`;
+}
+
+if (!!process.env.REGISTRY) {
+  json.publishConfig = json.publishConfig || {};
+  json.publishConfig.registry = process.env.REGISTRY;
+}
 
 writeFileSync("./package.json", JSON.stringify(json, undefined, 2));

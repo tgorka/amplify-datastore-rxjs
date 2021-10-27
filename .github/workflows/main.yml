@@ -62,6 +62,8 @@ jobs:
         run: npm run build
       - name: Add scope to package name
         run: node ./package-github-modification.js
+      - name: Copy .npmrc file
+        run: cp /home/runner/work/_temp/.npmrc ./.npmrc
       # Publish project into the repository
       - name: Publish
         run: npm whoami && npm publish --access public
