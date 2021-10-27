@@ -32,6 +32,12 @@ jobs:
         run: npm run publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Archive npm logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: npm-logs
+          path: |
+            /home/runner/.npm/_logs/
   github_publishing:
     runs-on: ubuntu-latest
     steps:
@@ -52,3 +58,9 @@ jobs:
         run: npm run publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Archive npm logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: npm-logs
+          path: |
+            /home/runner/.npm/_logs/
