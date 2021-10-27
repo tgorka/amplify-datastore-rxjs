@@ -20,8 +20,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-          token: ${{ secrets.NPM_TOKEN }}
-          registry-url: 'https://registry.npmjs.org/'
+          registry-url: 'https://registry.npmjs.org'
       # Install project
       - name: Install
         run: npm install
@@ -31,6 +30,8 @@ jobs:
       # Publish project into the repository
       - name: Publish
         run: npm run publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   github_publishing:
     runs-on: ubuntu-latest
     steps:
@@ -39,8 +40,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          registry-url: 'https://npm.pkg.github.com/'
+          registry-url: 'https://npm.pkg.github.com'
       # Install project
       - name: Install
         run: npm install
@@ -50,3 +50,5 @@ jobs:
       # Publish project into the repository
       - name: Publish
         run: npm run publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
