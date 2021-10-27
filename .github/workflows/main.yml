@@ -43,6 +43,9 @@ jobs:
             /home/runner/work/_temp/.npmrc
   github_publishing:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
