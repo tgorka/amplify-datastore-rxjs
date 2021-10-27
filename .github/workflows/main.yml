@@ -61,7 +61,7 @@ jobs:
       - name: Re-build
         run: npm run build
       - name: Add scope to package name
-        run: node ./package-name-scope.js
+        run: node ./package-name-change.js
       # Publish project into the repository
       - name: Publish
         run: npm whoami && npm publish
