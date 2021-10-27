@@ -46,7 +46,7 @@
     "scripts": {
         "prepare": "npm run build",
         "build:noclean": "tsc",
-        "build": "npm run clean && npm run build:noclean",
+        "build": "npm run clean:dist && npm run build:noclean",
         "clean:dist": "rm -rf ./dist",
         "clean:build": "rm -rf ./node_modules",
         "clean": "npm run clean:dist && npm run clean:build"
