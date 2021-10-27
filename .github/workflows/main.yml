@@ -32,7 +32,8 @@ jobs:
         run: npm run publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Archive npm logs
+      - name: Archive npm logs after failure
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: npm-logs
@@ -58,7 +59,8 @@ jobs:
         run: npm run publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Archive npm logs
+      - name: Archive npm logs after failure
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: npm-logs
