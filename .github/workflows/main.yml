@@ -61,13 +61,14 @@ jobs:
       - name: Re-build
         run: npm run build
       - name: Add scope to package name
-        run: node ./package-name-change.js
+        run: node ./package-github-modification.js
       # Publish project into the repository
       - name: Publish
-        run: npm whoami && npm publish
+        run: npm whoami && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SCOPE: '@tgorka'
+          REGISTRY: 'https://npm.pkg.github.com'
       - name: Archive npm logs after failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
@@ -77,3 +78,4 @@ jobs:
           path: |
             /home/runner/.npm/_logs/
             /home/runner/work/_temp/.npmrc
+            ./package.json
