@@ -60,11 +60,14 @@ jobs:
       # Re-build project in ./dist
       - name: Re-build
         run: npm run build
+      - name: Add scope to package name
+        run: node ./package-name-scope.js
       # Publish project into the repository
       - name: Publish
         run: npm whoami && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCOPE: '@tgorka'
       - name: Archive npm logs after failure
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
