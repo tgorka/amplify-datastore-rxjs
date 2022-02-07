@@ -27,3 +27,4 @@ export {
     AbstractGetApiAdapter,
     AbstractQueryApiAdapter,
 } from './src/api.adapter';
+export { DataStore, Predicates } from '@aws-amplify/datastore';

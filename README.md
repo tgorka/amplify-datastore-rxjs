@@ -443,6 +443,14 @@ export class TestsComponent implements OnInit {
 }
 ``` 
 
+### DataStore object
+
+In order not to install ```@aws-amplify/datastore``` in your project again there is a ```DataStore``` re-exported for the custom usage:
+
+``` typescript
+import { DataStore, Predicates } from 'amplify-datastore-rxjs';
+``` 
+
 ## Author
 Tomasz Górka <http://tomasz.gorka.org.pl>
 
